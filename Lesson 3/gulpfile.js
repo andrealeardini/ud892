@@ -3,16 +3,18 @@ var sass = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
 var browserSync = require('browser-sync').create();
 
-gulp.task('default', ['styles'], function() {
-	gulp.watch('sass/**/*.scss', ['styles']);
-
-	browserSync.init({
+gulp.task('browserSync', function () {
+	return browserSync.init({
 		server: './'
 	});
 });
 
-gulp.task('styles', function() {
-	gulp.src('sass/**/*.scss')
+gulp.task('watch', function () {
+	return gulp.watch('sass/**/*.scss', gulp.series('styles'));
+});
+
+gulp.task('styles', function () {
+	return gulp.src('sass/**/*.scss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions']
@@ -20,3 +22,6 @@ gulp.task('styles', function() {
 		.pipe(gulp.dest('./css'))
 		.pipe(browserSync.stream());
 });
+
+// Default Task
+gulp.task('default', gulp.parallel('styles', 'browserSync', 'watch'));
