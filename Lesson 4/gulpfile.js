@@ -46,7 +46,7 @@ gulp.task('lint', function () {
 gulp.task('tests', function () {
 	return gulp.src('tests/spec/extraSpec.js')
 		.pipe(jasmine({
-			integration: false,
+			integration: true,
 			vendor: 'js/**/*.js'
 		}));
 });
