@@ -9,7 +9,8 @@
   "devDependencies": {
     "browser-sync": "^2.23.7",
     "gulp": "^4.0.0",
-    "gulp-autoprefixer": "^5.0.0"
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-jasmine-phantom": "^3.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

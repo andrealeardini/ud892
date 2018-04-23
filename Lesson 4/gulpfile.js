@@ -7,16 +7,20 @@ var browserSync = require('browser-sync').create();
 var eslint = require('gulp-eslint');
 var jasmine = require('gulp-jasmine-phantom');
 
-gulp.task('default', ['styles', 'lint'], function() {
-	gulp.watch('sass/**/*.scss', ['styles']);
-	gulp.watch('js/**/*.js', ['lint']);
-
-	browserSync.init({
+gulp.task('browserSync', function () {
+	return browserSync.init({
 		server: './'
 	});
 });
 
-gulp.task('styles', function() {
+gulp.task('watch', function () {
+	return function () {
+		gulp.watch('sass/**/*.scss', ['styles']);
+		gulp.watch('js/**/*.js', ['lint']);
+	}
+});
+
+gulp.task('styles', function () {
 	gulp.src('sass/**/*.scss')
 		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
@@ -40,9 +44,12 @@ gulp.task('lint', function () {
 });
 
 gulp.task('tests', function () {
-	gulp.src('tests/spec/extraSpec.js')
+	return gulp.src('tests/spec/extraSpec.js')
 		.pipe(jasmine({
-			integration: true,
+			integration: false,
 			vendor: 'js/**/*.js'
 		}));
 });
+
+// Default Task
+gulp.task('default', ['styles', 'browserSync', 'watch', 'lint']);
